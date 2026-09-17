@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7e8ee">
+<title>Samuel y Luciana Store · Catálogo de Pijamas</title>
+<meta name="description" content="Catálogo de stock de pijamas de Samuel y Luciana Store. Consulta referencias, tallas y precios disponibles.">
+<style>
+:root {
+  --bg:#fffafc; --surface:#ffffff; --ink:#362c33; --muted:#746871;
+  --rose:#d77f9f; --rose-dark:#a94f73; --rose-soft:#f7e8ee; --lav:#eee7f8;
+  --sage:#e8f0e9; --line:#eadde3; --shadow:0 14px 38px rgba(92,55,72,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#fffafc 0%,#fff 35%,#fff8fb 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:inherit}
+.hero{position:relative;overflow:hidden;padding:64px 20px 46px;background:linear-gradient(135deg,#fbeef3 0%,#f3ecfa 52%,#edf5ef 100%);border-bottom:1px solid var(--line)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:999px;filter:blur(1px);opacity:.7}
+.hero:before{width:280px;height:280px;background:#f0c7d7;right:-90px;top:-100px}
+.hero:after{width:210px;height:210px;background:#dfeadf;left:-80px;bottom:-110px}
+.hero-inner{position:relative;z-index:1;max-width:1120px;margin:auto;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:center}
+.brand-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(169,79,115,.2);border-radius:999px;background:rgba(255,255,255,.7);font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rose-dark)}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(42px,7vw,82px);line-height:.95;margin:18px 0 16px;letter-spacing:-.035em}
+.hero p{max-width:720px;font-size:18px;line-height:1.65;color:var(--muted);margin:0}
+.hero-note{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.mini-pill{padding:9px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;font-size:14px;font-weight:700}
+.hero-card{background:rgba(255,255,255,.78);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);border-radius:26px;padding:24px}
+.hero-card .big{font-size:38px;font-weight:900;color:var(--rose-dark)}
+.hero-card .label{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.hero-card .divider{height:1px;background:var(--line);margin:18px 0}
+.container{max-width:1120px;margin:auto;padding:34px 20px 80px}
+.toolbar{position:sticky;top:0;z-index:12;padding:16px 0;background:rgba(255,250,252,.92);backdrop-filter:blur(14px);border-bottom:1px solid transparent}
+.toolbar-inner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:9px 13px;font-weight:750;cursor:pointer;transition:.2s}
+.chip:hover,.chip.active{background:var(--rose-dark);color:#fff;border-color:var(--rose-dark)}
+.search{flex:1;min-width:220px;max-width:330px;border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 13px;font-size:15px;outline:none}
+.search:focus{border-color:#d9a4b8;box-shadow:0 0 0 3px #f5dce6}
+.section-title{margin:38px 0 18px;display:flex;align-items:end;justify-content:space-between;gap:20px}
+.section-title h2{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:34px}
+.section-title p{margin:0;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.product-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 8px 24px rgba(92,55,72,.07);display:flex;flex-direction:column;transition:transform .22s ease,box-shadow .22s ease}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.image-button{position:relative;border:0;padding:0;background:#f7f3f5;cursor:zoom-in;display:block;width:100%;aspect-ratio:1/1;overflow:hidden}
+.image-button img{width:100%;height:100%;object-fit:contain;display:block;background:#faf7f8;transition:transform .35s ease}
+.product-card:hover .image-button img{transform:scale(1.02)}
+.zoom-chip{position:absolute;right:12px;bottom:12px;background:rgba(54,44,51,.78);color:white;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}
+.product-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:11px;flex:1}
+.product-topline{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ref{font-size:12px;font-weight:850;letter-spacing:.05em;color:var(--muted)}
+.stock{font-size:11px;font-weight:850;color:#4d755b;background:var(--sage);padding:5px 8px;border-radius:999px}
+.product-card h3{margin:0;font-size:20px;line-height:1.2}
+.desc{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+.price-row{display:flex;align-items:baseline;gap:6px;margin-top:auto;padding-top:4px}
+.price{font-size:27px;font-weight:900;color:var(--rose-dark)}
+.currency{font-size:12px;font-weight:850;color:var(--muted)}
+.order-btn{display:block;text-decoration:none;text-align:center;background:var(--ink);color:#fff;border-radius:13px;padding:12px 14px;font-weight:850;transition:.2s}
+.order-btn:hover{background:var(--rose-dark)}
+.info-panel{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 8px 24px rgba(92,55,72,.05)}
+.info-card h3{margin:0 0 14px;font-size:20px}
+.info-card p,.info-card li{color:var(--muted);line-height:1.65}
+.payments{display:grid;gap:10px}
+.payrow{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.payrow:last-child{border-bottom:0}
+.payrow strong{white-space:nowrap}
+footer{background:#332a30;color:#f8eef2;padding:34px 20px}
+.footer-inner{max-width:1120px;margin:auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer p{margin:4px 0;color:#ddcfd6}
+.whatsapp-float{position:fixed;right:18px;bottom:18px;z-index:20;text-decoration:none;background:#1f9d59;color:white;padding:13px 16px;border-radius:999px;font-weight:900;box-shadow:0 10px 28px rgba(31,157,89,.28)}
+.empty{display:none;text-align:center;padding:54px 10px;color:var(--muted)}
+.lightbox{display:none;position:fixed;inset:0;z-index:99;background:rgba(26,20,24,.9);padding:24px;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox-inner{position:relative;max-width:min(1100px,96vw);max-height:92vh;display:flex;flex-direction:column;gap:10px;align-items:center}
+.lightbox img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:18px;background:white}
+.lightbox-caption{color:white;font-weight:800;text-align:center}
+.close{position:absolute;right:-8px;top:-8px;width:38px;height:38px;border:0;border-radius:50%;background:#fff;color:#332a30;font-size:23px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-card{max-width:520px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.info-panel{grid-template-columns:1fr}}
+@media(max-width:600px){.hero{padding-top:44px}.hero-card{display:none}.container{padding-left:14px;padding-right:14px}.grid{grid-template-columns:1fr;gap:16px}.section-title{align-items:start;flex-direction:column;gap:4px}.toolbar-inner{align-items:stretch}.search{max-width:none;width:100%}.product-card{border-radius:18px}.image-button{aspect-ratio:4/3}.whatsapp-float{right:12px;bottom:12px;font-size:14px}}
+@media print{.toolbar,.whatsapp-float,.order-btn,.zoom-chip{display:none!important}.grid{grid-template-columns:repeat(2,1fr)}.product-card{break-inside:avoid;box-shadow:none}.hero{padding:30px 18px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="brand-kicker">Catálogo de stock</span>
+      <h1>Samuel y Luciana<br>Store</h1>
+      <p>Pijamas para descansar con comodidad y estilo. Explora las referencias disponibles, filtra por tipo y consulta tu talla favorita directamente por WhatsApp.</p>
+      <div class="hero-note">
+        <span class="mini-pill">📦 Stock sujeto a disponibilidad</span>
+        <span class="mini-pill">💬 Pedidos: 333 239 2710</span>
+      </div>
+    </div>
+    <aside class="hero-card">
+      <div class="label">Colección disponible</div>
+      <div class="big">27 fotos</div>
+      <div class="divider"></div>
+      <div class="label">Categorías</div>
+      <div style="font-size:23px;font-weight:900;margin-top:4px">5 estilos</div>
+      <div class="divider"></div>
+      <div style="color:var(--muted);line-height:1.55;font-size:14px">Precios visibles en COP. Confirma disponibilidad antes de realizar el pago.</div>
+    </aside>
+  </div>
+</header>
+
+<main class="container">
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div class="chips"><button class="chip active" data-filter="all">Todo</button><button class="chip" data-filter="pijama-pantalon-tiras">Pantalon Tiras</button><button class="chip" data-filter="pijama-pantalon-camiseta">Pantalon Camiseta</button><button class="chip" data-filter="pijama-short-tiras">Short Tiras</button><button class="chip" data-filter="pijama-tipo-batola">Tipo Batola</button><button class="chip" data-filter="pijama-capri-tiras">Capri Tiras</button></div>
+      <input id="search" class="search" type="search" placeholder="Buscar referencia, talla o estilo…" aria-label="Buscar en catálogo">
+    </div>
+  </div>
+
+  <div class="section-title">
+    <div><h2>Inventario actual</h2><p id="resultCount">27 opciones visibles</p></div>
+    <p>Haz clic en una foto para ampliarla.</p>
+  </div>
+
+  <section class="grid" id="catalogGrid">
+    
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="S" data-search="pijama pantalon tiras pt-s-01 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/01_PT-S-01.jpg', 'Pijama Pantalon Tiras · Talla S')">
+          <img src="assets/01_PT-S-01.jpg" alt="Pijama Pantalon Tiras talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-S-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20S%20%28Ref.%20PT-S-01%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="S" data-search="pijama pantalon tiras pt-s-02 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/02_PT-S-02.jpg', 'Pijama Pantalon Tiras · Talla S')">
+          <img src="assets/02_PT-S-02.jpg" alt="Pijama Pantalon Tiras talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-S-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20S%20%28Ref.%20PT-S-02%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="M" data-search="pijama pantalon tiras pt-m-01 m">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/03_PT-M-01.jpg', 'Pijama Pantalon Tiras · Talla M')">
+          <img src="assets/03_PT-M-01.jpg" alt="Pijama Pantalon Tiras talla M" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-M-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: M</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20M%20%28Ref.%20PT-M-01%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="M" data-search="pijama pantalon tiras pt-m-02 m">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/04_PT-M-02.jpg', 'Pijama Pantalon Tiras · Talla M')">
+          <img src="assets/04_PT-M-02.jpg" alt="Pijama Pantalon Tiras talla M" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-M-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: M</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20M%20%28Ref.%20PT-M-02%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="L" data-search="pijama pantalon tiras pt-l-01 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/05_PT-L-01.jpg', 'Pijama Pantalon Tiras · Talla L')">
+          <img src="assets/05_PT-L-01.jpg" alt="Pijama Pantalon Tiras talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-L-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20L%20%28Ref.%20PT-L-01%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="L" data-search="pijama pantalon tiras pt-l-02 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/06_PT-L-02.jpg', 'Pijama Pantalon Tiras · Talla L')">
+          <img src="assets/06_PT-L-02.jpg" alt="Pijama Pantalon Tiras talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-L-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20L%20%28Ref.%20PT-L-02%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="L" data-search="pijama pantalon tiras pt-l-03 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/07_PT-L-03.jpg', 'Pijama Pantalon Tiras · Talla L')">
+          <img src="assets/07_PT-L-03.jpg" alt="Pijama Pantalon Tiras talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-L-03</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20L%20%28Ref.%20PT-L-03%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-tiras" data-size="XL" data-search="pijama pantalon tiras pt-xl-01 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Tiras" onclick="openLightbox('assets/08_PT-XL-01.jpg', 'Pijama Pantalon Tiras · Talla XL')">
+          <img src="assets/08_PT-XL-01.jpg" alt="Pijama Pantalon Tiras talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PT-XL-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Tiras%20talla%20XL%20%28Ref.%20PT-XL-01%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-pantalon-camiseta" data-size="XL" data-search="pijama pantalon camiseta pc-xl-01 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Pantalon Camiseta" onclick="openLightbox('assets/09_PC-XL-01.jpg', 'Pijama Pantalon Camiseta · Talla XL')">
+          <img src="assets/09_PC-XL-01.jpg" alt="Pijama Pantalon Camiseta talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. PC-XL-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Pantalon Camiseta</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$55.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Pantalon%20Camiseta%20talla%20XL%20%28Ref.%20PC-XL-01%29%20por%20%2455.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-short-tiras" data-size="S" data-search="pijama short tiras st-s-01 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Short Tiras" onclick="openLightbox('assets/10_ST-S-01.jpg', 'Pijama Short Tiras · Talla S')">
+          <img src="assets/10_ST-S-01.jpg" alt="Pijama Short Tiras talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. ST-S-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Short Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$30.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Short%20Tiras%20talla%20S%20%28Ref.%20ST-S-01%29%20por%20%2430.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-short-tiras" data-size="L" data-search="pijama short tiras st-l-01 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Short Tiras" onclick="openLightbox('assets/11_ST-L-01.jpg', 'Pijama Short Tiras · Talla L')">
+          <img src="assets/11_ST-L-01.jpg" alt="Pijama Short Tiras talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. ST-L-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Short Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$30.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Short%20Tiras%20talla%20L%20%28Ref.%20ST-L-01%29%20por%20%2430.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-short-tiras" data-size="XL" data-search="pijama short tiras st-xl-01 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Short Tiras" onclick="openLightbox('assets/12_ST-XL-01.jpg', 'Pijama Short Tiras · Talla XL')">
+          <img src="assets/12_ST-XL-01.jpg" alt="Pijama Short Tiras talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. ST-XL-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Short Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$30.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Short%20Tiras%20talla%20XL%20%28Ref.%20ST-XL-01%29%20por%20%2430.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="S" data-search="pijama tipo batola bt-s-01 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/13_BT-S-01.jpg', 'Pijama Tipo Batola · Talla S')">
+          <img src="assets/13_BT-S-01.jpg" alt="Pijama Tipo Batola talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-S-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20S%20%28Ref.%20BT-S-01%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="S" data-search="pijama tipo batola bt-s-02 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/14_BT-S-02.jpg', 'Pijama Tipo Batola · Talla S')">
+          <img src="assets/14_BT-S-02.jpg" alt="Pijama Tipo Batola talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-S-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20S%20%28Ref.%20BT-S-02%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="S" data-search="pijama tipo batola bt-s-03 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/15_BT-S-03.jpg', 'Pijama Tipo Batola · Talla S')">
+          <img src="assets/15_BT-S-03.jpg" alt="Pijama Tipo Batola talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-S-03</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20S%20%28Ref.%20BT-S-03%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="M" data-search="pijama tipo batola bt-m-01 m">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/16_BT-M-01.jpg', 'Pijama Tipo Batola · Talla M')">
+          <img src="assets/16_BT-M-01.jpg" alt="Pijama Tipo Batola talla M" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-M-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: M</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20M%20%28Ref.%20BT-M-01%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="L" data-search="pijama tipo batola bt-l-01 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/17_BT-L-01.jpg', 'Pijama Tipo Batola · Talla L')">
+          <img src="assets/17_BT-L-01.jpg" alt="Pijama Tipo Batola talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-L-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20L%20%28Ref.%20BT-L-01%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="XL" data-search="pijama tipo batola bt-xl-01 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/18_BT-XL-01.jpg', 'Pijama Tipo Batola · Talla XL')">
+          <img src="assets/18_BT-XL-01.jpg" alt="Pijama Tipo Batola talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-XL-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20XL%20%28Ref.%20BT-XL-01%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-tipo-batola" data-size="XL" data-search="pijama tipo batola bt-xl-02 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Tipo Batola" onclick="openLightbox('assets/19_BT-XL-02.jpg', 'Pijama Tipo Batola · Talla XL')">
+          <img src="assets/19_BT-XL-02.jpg" alt="Pijama Tipo Batola talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. BT-XL-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Tipo Batola</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$28.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Tipo%20Batola%20talla%20XL%20%28Ref.%20BT-XL-02%29%20por%20%2428.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-short-tiras" data-size="L" data-search="pijama short tiras st-l-02 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Short Tiras" onclick="openLightbox('assets/20_ST-L-02.jpg', 'Pijama Short Tiras · Talla L')">
+          <img src="assets/20_ST-L-02.jpg" alt="Pijama Short Tiras talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. ST-L-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Short Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$30.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Short%20Tiras%20talla%20L%20%28Ref.%20ST-L-02%29%20por%20%2430.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-short-tiras" data-size="XL" data-search="pijama short tiras st-xl-02 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Short Tiras" onclick="openLightbox('assets/21_ST-XL-02.jpg', 'Pijama Short Tiras · Talla XL')">
+          <img src="assets/21_ST-XL-02.jpg" alt="Pijama Short Tiras talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. ST-XL-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Short Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$30.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Short%20Tiras%20talla%20XL%20%28Ref.%20ST-XL-02%29%20por%20%2430.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-short-tiras" data-size="2XL" data-search="pijama short tiras st-2xl-01 2xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Short Tiras" onclick="openLightbox('assets/22_ST-2XL-01.jpg', 'Pijama Short Tiras · Talla 2XL')">
+          <img src="assets/22_ST-2XL-01.jpg" alt="Pijama Short Tiras talla 2XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. ST-2XL-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Short Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: 2XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$30.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Short%20Tiras%20talla%202XL%20%28Ref.%20ST-2XL-01%29%20por%20%2430.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-capri-tiras" data-size="S" data-search="pijama capri tiras ct-s-01 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Capri Tiras" onclick="openLightbox('assets/23_CT-S-01.jpg', 'Pijama Capri Tiras · Talla S')">
+          <img src="assets/23_CT-S-01.jpg" alt="Pijama Capri Tiras talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. CT-S-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Capri Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$40.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Capri%20Tiras%20talla%20S%20%28Ref.%20CT-S-01%29%20por%20%2440.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-capri-tiras" data-size="S" data-search="pijama capri tiras ct-s-02 s">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Capri Tiras" onclick="openLightbox('assets/24_CT-S-02.jpg', 'Pijama Capri Tiras · Talla S')">
+          <img src="assets/24_CT-S-02.jpg" alt="Pijama Capri Tiras talla S" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. CT-S-02</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Capri Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: S</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$40.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Capri%20Tiras%20talla%20S%20%28Ref.%20CT-S-02%29%20por%20%2440.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-capri-tiras" data-size="M" data-search="pijama capri tiras ct-m-01 m">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Capri Tiras" onclick="openLightbox('assets/25_CT-M-01.jpg', 'Pijama Capri Tiras · Talla M')">
+          <img src="assets/25_CT-M-01.jpg" alt="Pijama Capri Tiras talla M" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. CT-M-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Capri Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: M</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$40.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Capri%20Tiras%20talla%20M%20%28Ref.%20CT-M-01%29%20por%20%2440.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-capri-tiras" data-size="L" data-search="pijama capri tiras ct-l-01 l">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Capri Tiras" onclick="openLightbox('assets/26_CT-L-01.jpg', 'Pijama Capri Tiras · Talla L')">
+          <img src="assets/26_CT-L-01.jpg" alt="Pijama Capri Tiras talla L" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. CT-L-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Capri Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: L</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$40.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Capri%20Tiras%20talla%20L%20%28Ref.%20CT-L-01%29%20por%20%2440.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="pijama-capri-tiras" data-size="XL" data-search="pijama capri tiras ct-xl-01 xl">
+        <button class="image-button" type="button" aria-label="Ampliar Pijama Capri Tiras" onclick="openLightbox('assets/27_CT-XL-01.jpg', 'Pijama Capri Tiras · Talla XL')">
+          <img src="assets/27_CT-XL-01.jpg" alt="Pijama Capri Tiras talla XL" loading="lazy">
+          <span class="zoom-chip">Ver foto</span>
+        </button>
+        <div class="product-body">
+          <div class="product-topline"><span class="ref">Ref. CT-XL-01</span><span class="stock">Disponible</span></div>
+          <h3>Pijama Capri Tiras</h3>
+          <p class="desc">Pijama cómoda para descanso. <strong>Talla disponible: XL</strong>. Material: consultar.</p>
+          <div class="price-row"><span class="price">$40.000</span><span class="currency">COP</span></div>
+          <a class="order-btn" href="https://wa.me/573332392710?text=Hola%2C%20quiero%20consultar%20disponibilidad%20de%20Pijama%20Capri%20Tiras%20talla%20XL%20%28Ref.%20CT-XL-01%29%20por%20%2440.000%20COP." target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        </div>
+      </article>
+  </section>
+  <div class="empty" id="emptyState">No encontramos productos con ese filtro.</div>
+
+  <section class="info-panel" id="pagos">
+    <div class="info-card">
+      <h3>💳 Métodos de pago</h3>
+      <div class="payments">
+        <div class="payrow"><span>Nequi</span><strong>320 622 0632</strong></div>
+        <div class="payrow"><span>Bancolombia</span><strong>72058014867</strong></div>
+        <div class="payrow"><span>Llave</span><strong>1093226856</strong></div>
+      </div>
+    </div>
+    <div class="info-card">
+      <h3>🚚 Envíos y pedidos</h3>
+      <p>Consulta cobertura, costo y tiempo estimado de entrega antes de confirmar tu compra.</p>
+      <p><strong>Contacto:</strong> 333 239 2710</p>
+      <p style="font-size:13px">La disponibilidad puede cambiar durante el día. Se recomienda confirmar la referencia antes del pago.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong style="font-size:19px">Samuel y Luciana Store</strong><p>Catálogo de pijamas · Stock actual</p></div>
+    <div><p>WhatsApp: 333 239 2710</p><p>Nequi · Bancolombia · Llave</p></div>
+  </div>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/573332392710" target="_blank" rel="noopener">WhatsApp</a>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada">
+  <div class="lightbox-inner">
+    <button class="close" type="button" onclick="closeLightbox()" aria-label="Cerrar">×</button>
+    <img id="lightboxImg" src="" alt="">
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+const cards=[...document.querySelectorAll('.product-card')];
+const chips=[...document.querySelectorAll('.chip')];
+const search=document.getElementById('search');
+const count=document.getElementById('resultCount');
+const empty=document.getElementById('emptyState');
+let active='all';
+function applyFilters(){
+  const q=search.value.trim().toLowerCase(); let visible=0;
+  cards.forEach(card=>{
+    const catOk=active==='all'||card.dataset.category===active;
+    const searchOk=!q||card.dataset.search.includes(q);
+    const show=catOk&&searchOk; card.style.display=show?'flex':'none'; if(show)visible++;
+  });
+  count.textContent=`${visible} ${visible===1?'opción visible':'opciones visibles'}`;
+  empty.style.display=visible?'none':'block';
+}
+chips.forEach(chip=>chip.addEventListener('click',()=>{chips.forEach(c=>c.classList.remove('active'));chip.classList.add('active');active=chip.dataset.filter;applyFilters();}));
+search.addEventListener('input',applyFilters);
+function openLightbox(src,caption){document.getElementById('lightboxImg').src=src;document.getElementById('lightboxCaption').textContent=caption;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLightbox();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
+</body>
+</html>
